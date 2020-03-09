@@ -1,0 +1,10 @@
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+nav ul .is-active {
+  font-weight: bold;
+}

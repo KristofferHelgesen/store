@@ -1,0 +1,42 @@
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <fieldset>
+    <legend>Add product</legend>
+    <div class="form-group">
+      <label for="title" class=" "
+        >Product name <strong><abbr title="required">*</abbr></strong></label
+      >
+      <input name="title" type="text" ngModel #title="ngModel" required />
+      <span *ngIf="!title.valid && title.touched">
+        Write a description
+      </span>
+      <br />
+      <label for="desc" class=" "
+        >Description <strong><abbr title="required">*</abbr></strong></label
+      >
+      <input name="desc" type="text" ngModel #desc="ngModel" required />
+      <span *ngIf="!desc.valid && desc.touched">
+        Write a description
+      </span>
+      <br />
+      <label for="price" class=" "
+        >Price<strong><abbr title="required">*</abbr></strong></label
+      >
+      <input name="price" type="number" ngModel #price="ngModel" required />
+      <span *ngIf="!price.valid && price.touched">
+        Write a description
+      </span>
+      <br />
+      <label for="img" class=" "
+        >Image URL<strong><abbr title="required">*</abbr></strong></label
+      >
+      <input name="img" type="text" ngModel #img="ngModel" required />
+      <span *ngIf="!img.valid && img.touched">
+        Write a description
+      </span>
+    </div>
+  </fieldset>
+
+  <button [disabled]="!f.valid" type="submit">Save</button>
+</form>
+<hr />
+<app-all-products></app-all-products>

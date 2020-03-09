@@ -1,0 +1,13 @@
+<div class="single-container">
+  <img
+    [src]="singularProduct.imgUrl"
+    alt="Image of: {{ singularProduct.title }}"
+    width="100%"
+  />
+  <h4>{{ singularProduct.title }}</h4>
+  <div>{{ singularProduct.price }} kr</div>
+  <p>
+    {{ singularProduct.description }}
+  </p>
+  <button (click)="addProduct()">Add</button>
+</div>

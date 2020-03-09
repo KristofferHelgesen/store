@@ -1,0 +1,11 @@
+<div class="all-products">
+  <app-singular
+    *ngFor="let singular of allProducts"
+    id="{{ singular.id }}"
+    title="{{ singular.title }}"
+    description="{{ singular.description }}"
+    imgUrl="{{ singular.imgUrl }}"
+    price="{{ singular.price }}"
+  >
+  </app-singular>
+</div>
