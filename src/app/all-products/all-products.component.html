@@ -1,11 +1,19 @@
-<div class="all-products">
-  <app-singular
-    *ngFor="let singular of allProducts"
-    id="{{ singular.id }}"
-    title="{{ singular.title }}"
-    description="{{ singular.description }}"
-    imgUrl="{{ singular.imgUrl }}"
-    price="{{ singular.price }}"
+<div>
+  <div
+    class="all-products"
+    *ngIf="allProducts$ | async as allProducts; else loading"
   >
-  </app-singular>
+    <app-singular
+      *ngFor="let singular of allProducts"
+      id="{{ singular.id }}"
+      title="{{ singular.title }}"
+      description="{{ singular.description }}"
+      imgUrl="{{ singular.imgUrl }}"
+      price="{{ singular.price }}"
+    >
+    </app-singular>
+  </div>
+  <ng-template #loading>
+    LOADING
+  </ng-template>
 </div>

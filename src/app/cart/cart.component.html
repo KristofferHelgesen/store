@@ -1,1 +1,4 @@
-<p>cart works!</p>
+<div *ngIf="arrayOfCartItems$ | async as allProducts; else loading">
+  <span>{{ allProducts.length }}</span>
+</div>
+<ng-template #loading> LOADING </ng-template>
