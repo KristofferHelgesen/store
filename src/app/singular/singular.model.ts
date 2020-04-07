@@ -4,6 +4,7 @@ export class SingularModel {
     public title: String,
     public description: String,
     public imgUrl: String,
-    public price: Number
+    public price: Number,
+    public type: String
   ) {}
 }

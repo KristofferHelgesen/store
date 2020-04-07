@@ -17,7 +17,8 @@ export class AppService {
       exercitationem laborum praesentium hic aspernatur et rem ab, officiis
       similique?`,
       "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
-      4200
+      4200,
+      "tv"
     ),
     new SingularModel(
       "12",
@@ -27,7 +28,8 @@ export class AppService {
       exercitationem laborum praesentium hic aspernatur et rem ab, officiis
       similique?`,
       "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
-      8200
+      8200,
+      "tv"
     ),
     new SingularModel(
       "15",
@@ -37,7 +39,8 @@ export class AppService {
       exercitationem laborum praesentium hic aspernatur et rem ab, officiis
       similique?`,
       "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
-      7800
+      7800,
+      "tv"
     ),
     new SingularModel(
       "155",
@@ -47,7 +50,19 @@ export class AppService {
       exercitationem laborum praesentium hic aspernatur et rem ab, officiis
       similique?`,
       "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
-      15000
+      15000,
+      "tv"
+    ),
+    new SingularModel(
+      "121",
+      "GTX 1080",
+      `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod iusto nulla
+      illo atque, optio maiores consequuntur distinctio ut qui, impedit
+      exercitationem laborum praesentium hic aspernatur et rem ab, officiis
+      similique?`,
+      "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
+      6000,
+      "pc"
     ),
   ];
 
@@ -68,7 +83,6 @@ export class AppService {
     let productToBeAdded = this.products.filter((x) => {
       return x.id == id;
     });
-
     this.cartItems.push(productToBeAdded);
   }
   constructor() {}
