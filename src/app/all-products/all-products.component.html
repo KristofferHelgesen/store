@@ -1,16 +1,19 @@
 <div>
   <div
     class="all-products"
-    *ngIf="allProducts$ | async as allProducts; else loading"
+    *ngIf="filteredProducts$ | async as filteredProducts; else loading"
   >
     <div style="width: 100%;">
       <label>Category</label>
-      <select (change)="uniqueTypesFunction($event)">
-        <option *ngFor="let item of uniqueTypes$ | async">{{ item }}</option>
+
+      <select (change)="uniqueTypeFunction($event)">
+        <option *ngFor="let item of uniqueTypes">{{ item }}</option>
       </select>
+
       <br />
 
       <input
+        *ngIf="selectedRangeSlider$ | async as priceRangeSlider"
         (change)="priceRangeSliderFunction($event)"
         type="range"
         min="0"
@@ -20,7 +23,7 @@
     </div>
 
     <app-singular
-      *ngFor="let singular of allProducts"
+      *ngFor="let singular of filteredProducts"
       id="{{ singular.id }}"
       title="{{ singular.title }}"
       description="{{ singular.description }}"

@@ -1,8 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { SingularModel } from "../singular/singular.model";
 import { AppService } from "../app.service";
-import { Observable, of, combineLatest } from "rxjs";
-import { distinct, map, mergeMap, filter } from "rxjs/operators";
+import {
+  Observable,
+  of,
+  combineLatest,
+  fromEvent,
+  BehaviorSubject,
+} from "rxjs";
+import { distinct, map, mergeMap, filter, startWith } from "rxjs/operators";
+
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-all-products",
@@ -10,44 +18,39 @@ import { distinct, map, mergeMap, filter } from "rxjs/operators";
   styleUrls: ["./all-products.component.scss"],
 })
 export class AllProductsComponent implements OnInit {
-  allProducts$: Observable<SingularModel[]>;
-  uniqueTypes$: Observable<string[]> =  of(["tv", "pc"]);
-  selectedType$: Observable<string> = of("");
-  priceRangeSlider$: Observable<number> = of(5000);
+  allProducts$: Observable<SingularModel[]> = this.appService.getProducts();
+  filteredProducts$: Observable<SingularModel[]>;
 
+  //Filters
+  uniqueTypes = ["tv", "pc"];
+
+  selectedTypeSubject = new BehaviorSubject<string>("tv");
+  selectedType$ = this.selectedTypeSubject.asObservable();
+  uniqueTypeFunction(e) {
+    this.selectedTypeSubject.next(e.target.value);
+  }
+
+  selectedRangeSliderSubject = new BehaviorSubject<number>(5000);
+  selectedRangeSlider$ = this.selectedRangeSliderSubject.asObservable();
   priceRangeSliderFunction(e) {
-    this.priceRangeSlider$ = e.target.value;
-    console.log(this.priceRangeSlider$);
+    this.selectedRangeSliderSubject.next(e.target.value);
   }
-  uniqueTypesFunction(e) {
-    this.selectedType$ = e.target.value;
-    console.log(this.selectedType$);
-  }
-
-  //https://stackblitz.com/edit/angular-filtering-rxjs?file=src%2Fapp%2Fapp.component.ts
 
   constructor(private appService: AppService) {}
 
   ngOnInit() {
-   /*
-    this.allProducts$ = combineLatest(this.selectedType$, this.priceRangeSlider$,this.appService.getProducts()).pipe(
-
-      map(([selectedType, priceRangeSlider,getProducts]) => 
-      getProducts.filter(product => product.type == this.selectedType$))
-
-
-https://stackblitz.com/edit/angular-filtering-rxjs?file=src%2Fapp%2Fapp.component.ts
-    );*/
-  }
-    /*  this.appService
-      .getProducts()
-      .pipe(
-        map((array) =>
-          array.filter((x) =>
-            this.selectedType != "" ? x.type == this.selectedType : x
-          )
-        )
+    this.filteredProducts$ = combineLatest(
+      this.selectedType$,
+      this.selectedRangeSlider$,
+      this.allProducts$
+    ).pipe(
+      map(([selectedType, priceRangeSlider, allProducts]) =>
+        allProducts.filter((product) => {
+          let priceRangeBool = product.price >= priceRangeSlider;
+          let productTypeBool = product.type == selectedType;
+          return productTypeBool && priceRangeBool ? product : null;
+        })
       )
-      .subscribe((x) => (this.allProducts = x));*/
+    );
   }
 }
