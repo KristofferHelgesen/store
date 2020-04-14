@@ -6,7 +6,7 @@
     <div style="width: 100%;">
       <label>Category</label>
 
-      <select (change)="uniqueTypeFunction($event)">
+      <select value="{{initValue}}" (change)="uniqueTypeFunction($event)">
         <option *ngFor="let item of uniqueTypes">{{ item }}</option>
       </select>
 
@@ -27,7 +27,7 @@
       id="{{ singular.id }}"
       title="{{ singular.title }}"
       description="{{ singular.description }}"
-      imgUrl="{{ singular.imgUrl }}"
+      imgUrl="{{ singular.imgUrl ? singular.imgUrl : "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png" }}"
       price="{{ singular.price }}"
     >
     </app-singular>

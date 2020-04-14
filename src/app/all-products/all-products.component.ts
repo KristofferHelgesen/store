@@ -17,14 +17,15 @@ import { FormControl } from "@angular/forms";
   templateUrl: "./all-products.component.html",
   styleUrls: ["./all-products.component.scss"],
 })
-export class AllProductsComponent implements OnInit {
-  allProducts$: Observable<SingularModel[]> = this.appService.getProducts();
-  filteredProducts$: Observable<SingularModel[]>;
+export class AllProductsComponent implements OnInit{
+
+  allProducts$: Observable<SingularModel[]> 
 
   //Filters
-  uniqueTypes = ["tv", "pc"];
+  initValue = "random";
+  uniqueTypes = ["tv", "pc","random"];
 
-  selectedTypeSubject = new BehaviorSubject<string>("tv");
+  selectedTypeSubject = new BehaviorSubject<string>(this.initValue);
   selectedType$ = this.selectedTypeSubject.asObservable();
   uniqueTypeFunction(e) {
     this.selectedTypeSubject.next(e.target.value);
@@ -36,21 +37,26 @@ export class AllProductsComponent implements OnInit {
     this.selectedRangeSliderSubject.next(e.target.value);
   }
 
+  filteredProducts$ = combineLatest(
+    this.selectedType$,
+    this.selectedRangeSlider$,
+    this.appService.getProducts()
+  ).pipe(
+    map(([selectedType, priceRangeSlider, allProducts]) =>
+      allProducts.filter((product) => {
+
+        console.log("SOMETHING CHANGED IN")
+        let priceRangeBool = product.price >= priceRangeSlider;
+        let productTypeBool = product.type == selectedType;
+        return productTypeBool && priceRangeBool ? product : null;
+      })
+    )
+  );
+
   constructor(private appService: AppService) {}
 
   ngOnInit() {
-    this.filteredProducts$ = combineLatest(
-      this.selectedType$,
-      this.selectedRangeSlider$,
-      this.allProducts$
-    ).pipe(
-      map(([selectedType, priceRangeSlider, allProducts]) =>
-        allProducts.filter((product) => {
-          let priceRangeBool = product.price >= priceRangeSlider;
-          let productTypeBool = product.type == selectedType;
-          return productTypeBool && priceRangeBool ? product : null;
-        })
-      )
-    );
+    this.allProducts$ = this.appService.getCartProducts();
   }
+  
 }

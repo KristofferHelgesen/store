@@ -7,22 +7,29 @@ import { AppService } from "../app.service";
 @Component({
   selector: "app-new-product",
   templateUrl: "./new-product.component.html",
-  styleUrls: ["./new-product.component.scss"]
+  styleUrls: ["./new-product.component.scss"],
 })
-export class NewProductComponent implements OnInit {
+export class NewProductComponent {
   allProducts: Array<SingularModel>;
   constructor(
     private appService: AppService,
     private newProductService: NewProductService
   ) {}
 
-  ngOnInit() {
-    this.allProducts = this.appService.getProducts();
-  }
-
   //On submit of form
   onSubmit(form: NgForm) {
-    this.newProductService.save(form.value);
-    form.resetForm();
+    let val = form.value;
+
+    this.newProductService.save( 
+      new SingularModel(
+        Math.random() + "",
+        val.title,
+        val.desc,
+        val.img,
+        val.price,
+        "random"
+      )
+    );
+    //form.resetForm();
   }
 }
